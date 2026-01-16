@@ -10,7 +10,7 @@ getgenv().UHLoaded = true
 print("=== ULTIMATE HUB LOADER V10.3 STARTING ===")
 
 local CFG = {
-    CU = "https://pastebin.com/raw/hRnCQzUq", -- GANTI DENGAN URL CORE KAMU
+    CU = "https://raw.githubusercontent.com/trianaq765-cmd/VD-key-sistem/refs/heads/main/Core%20final%20(5).txt", -- GANTI DENGAN URL CORE KAMU
 }
 
 local HS, TS, PL, CG, SG = game:GetService("HttpService"), game:GetService("TweenService"), game:GetService("Players"), game:GetService("CoreGui"), game:GetService("StarterGui")
@@ -178,4 +178,5 @@ end
 
 -- LANGSUNG LOAD TANPA KEY SYSTEM
 print("=== LOADING HUB (NO KEY) ===")
+
 LH()
