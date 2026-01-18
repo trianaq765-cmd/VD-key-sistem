@@ -7,79 +7,15 @@
 
 local _SEC_TOKEN = getgenv()._SHIELD_SESSION_KEY
 local _SEC_TIMESTAMP = getgenv()._SHIELD_TIMESTAMP or 0
-
--- Bersihkan jejak token
-if getgenv()._SHIELD_SESSION_KEY then
-    getgenv()._SHIELD_SESSION_KEY = nil
-    getgenv()._SHIELD_TIMESTAMP = nil
-end
-
--- Kick Function
-local function _SECURITY_KICK(reason)
-    pcall(function()
-        game:GetService("Players").LocalPlayer:Kick("⛔ " .. tostring(reason))
-    end)
-    while true do task.wait(9e9) end
-end
-
--- 1. Cek Token (Wajib ada)
-if not _SEC_TOKEN then
-    _SECURITY_KICK("Security Violation: Script executed manually (No Session Token).")
-    return
-end
+if getgenv()._SHIELD_SESSION_KEY then getgenv()._SHIELD_SESSION_KEY=nil getgenv()._SHIELD_TIMESTAMP=nil end
+local function _SECURITY_KICK(reason)pcall(function()game:GetService("Players").LocalPlayer:Kick("⛔ "..tostring(reason))end)while true do task.wait(9e9)end end
+if not _SEC_TOKEN then _SECURITY_KICK("Security Violation: Script executed manually (No Session Token).")return end
+local SPY_GUI_NAMES={"simplespy","simple_spy","remotespy","remote_spy","httpspy","http_spy","dexexplorer","dex","darkdex","infiniteyield","hydroxide","scriptdumper","unluac","jobid","rejoin","explorer"}
+local function CheckGUI(child)if not child then return end if child:IsA("ScreenGui")or child:IsA("BillboardGui")then local name=string.lower(child.Name)for _,spy in ipairs(SPY_GUI_NAMES)do if name:find(spy)then _SECURITY_KICK("Spy Tool Detected: "..child.Name)return true end end task.spawn(function()local suspicious_score=0 for _,desc in ipairs(child:GetDescendants())do if desc:IsA("TextLabel")or desc:IsA("TextButton")then local text=string.lower(desc.Text)if text:find("remote")and text:find("spy")then suspicious_score=suspicious_score+1 end if text:find("function")and text:find("hook")then suspicious_score=suspicious_score+1 end if text:find("saveinstance")then suspicious_score=suspicious_score+1 end end end if suspicious_score>=2 then _SECURITY_KICK("Spy Tool Detected (Content Scan): "..child.Name)end end)end end
+local CG=game:GetService("CoreGui")CG.ChildAdded:Connect(CheckGUI)for _,c in ipairs(CG:GetChildren())do CheckGUI(c)end
 
 --[[ ═══════════════════════════════════════════════════════
-     PASSIVE ANTI-SPY (HANYA DETEKSI GUI)
-═══════════════════════════════════════════════════════ ]]
-
-local SPY_GUI_NAMES = {
-    "simplespy", "simple_spy", "remotespy", "remote_spy",
-    "httpspy", "http_spy", "dexexplorer", "dex", "darkdex",
-    "infiniteyield", "hydroxide", "scriptdumper", "unluac",
-    "jobid", "rejoin", "explorer" -- Kata kunci umum tool cheat
-}
-
-local function CheckGUI(child)
-    if not child then return end
-    if child:IsA("ScreenGui") or child:IsA("BillboardGui") then
-        local name = string.lower(child.Name)
-        -- Cek nama GUI
-        for _, spy in ipairs(SPY_GUI_NAMES) do
-            if name:find(spy) then
-                _SECURITY_KICK("Spy Tool Detected: " .. child.Name)
-                return true
-            end
-        end
-        
-        -- Deep scan (Cek isi GUI untuk teks mencurigakan)
-        -- Ini hanya jalan jika GUI baru muncul, tidak scan terus menerus (biar gak lag)
-        task.spawn(function()
-            local suspicious_score = 0
-            for _, desc in ipairs(child:GetDescendants()) do
-                if desc:IsA("TextLabel") or desc:IsA("TextButton") then
-                    local text = string.lower(desc.Text)
-                    if text:find("remote") and text:find("spy") then suspicious_score = suspicious_score + 1 end
-                    if text:find("function") and text:find("hook") then suspicious_score = suspicious_score + 1 end
-                    if text:find("saveinstance") then suspicious_score = suspicious_score + 1 end
-                end
-            end
-            if suspicious_score >= 2 then
-                _SECURITY_KICK("Spy Tool Detected (Content Scan): " .. child.Name)
-            end
-        end)
-    end
-end
-
--- Monitor CoreGui (Tempat tool spy biasanya muncul)
-local CG = game:GetService("CoreGui")
-CG.ChildAdded:Connect(CheckGUI)
-
--- Scan awal (siapa tau spy sudah nyala duluan)
-for _, c in ipairs(CG:GetChildren()) do CheckGUI(c) end
-
---[[ ═══════════════════════════════════════════════════════
-     CORE SCRIPT ASLI (KEY SYSTEM)
-     Code kamu yang lama ada di bawah ini
+     CORE SCRIPT - KEY SYSTEM WITH JUNKIE INTEGRATION
 ═══════════════════════════════════════════════════════ ]]
 
 local P=game:GetService("Players")
@@ -89,44 +25,41 @@ local CG=game:GetService("CoreGui")
 local HS=game:GetService("HttpService")
 local TS=game:GetService("TweenService")
 local GID=93978595733734
--- (Daftar executor blacklist saya hapus agar lebih aman dan tidak conflict)
-local AE={"delta"} -- Whitelist executor (Opsional)
 
--- CONFIG
+-- CONFIG (Junkie Integration)
 local CFG={
-    HL="https://pastebin.com/raw/u4kzwdEX", -- Script Loader setelah Key
-    MA=3,
-    SF="ToingDc",
-    SFL="KeyData.json",
-    WA="https://work.ink/_api/v2/token/isValid/",
-    GK="https://work.ink/29pu/key-sistem-3"
+    -- Junkie Dashboard Settings
+    junkie_service = "Junkie",        -- Name of Service from Junkie dashboard
+    junkie_identifier = "69696969",   -- The id of your provider name
+    junkie_provider = "Junkie",       -- Junkie provider name
+    
+    -- Script Settings
+    HL = "https://pastebin.com/raw/u4kzwdEX", -- Script Loader setelah Key valid
+    MA = 3,                           -- Max attempts before kick
+    SF = "ToingDc",                   -- Save folder name
+    SFL = "KeyData.json",             -- Save file name for key storage
 }
+
+local Junkie=loadstring(game:HttpGet("https://jnkie.com/sdk/library.lua"))()
+Junkie.service=CFG.junkie_service
+Junkie.identifier=CFG.junkie_identifier
+Junkie.provider=CFG.junkie_provider
+
+local errorMessages={KEY_INVALID="Key tidak ditemukan",KEY_EXPIRED="Key sudah expired",HWID_BANNED="Hardware banned",KEY_INVALIDATED="Key dinonaktifkan",ALREADY_USED="Key sekali pakai sudah terpakai",HWID_MISMATCH="HWID limit tercapai",SERVICE_NOT_FOUND="Service tidak ditemukan",SERVICE_MISMATCH="Key untuk service lain",PREMIUM_REQUIRED="Butuh key premium",ERROR="Network error, coba lagi",RATE_LIMITTED="Rate limited, tunggu 5 menit"}
 local FA=0
 
 local function SN(t,x,d)pcall(function()SG:SetCore("SendNotification",{Title=t,Text=x,Duration=d or 3})end)end
 local function KP(r)task.wait(1)LP:Kick(r)end
+local function GEN()local n="Unknown"pcall(function()if identifyexecutor then local a=identifyexecutor()if a then n=tostring(a)end end end)return n end
 
--- CEK EXECUTOR (Sederhana saja)
-local function GEN()
-    local n="Unknown"
-    pcall(function()
-        if identifyexecutor then local a=identifyexecutor() if a then n=tostring(a) end end
-    end)
-    return n
-end
+if game.PlaceId~=GID then SN("⛔ Wrong Game","Script ini hanya untuk Violence District!",3)end
 
--- CEK GAME ID
-if game.PlaceId~=GID then 
-    SN("⛔ Wrong Game","Script ini hanya untuk Violence District!",3)
-    -- KP("⛔ WRONG GAME") -- Uncomment jika ingin auto kick
-    -- return -- Uncomment jika ingin stop
-end
-
--- KEY SYSTEM LOGIC (Original)
 local function SK(k)pcall(function()if not isfolder(CFG.SF)then makefolder(CFG.SF)end writefile(CFG.SF.."/"..CFG.SFL,HS:JSONEncode({key=k,savedAt=os.time()}))end)end
 local function LK()local s,d=pcall(function()if isfile(CFG.SF.."/"..CFG.SFL)then return HS:JSONDecode(readfile(CFG.SF.."/"..CFG.SFL))end return nil end)return s and d or nil end
 local function DK()pcall(function()if isfile(CFG.SF.."/"..CFG.SFL)then delfile(CFG.SF.."/"..CFG.SFL)end end)end
-local function VK(k)if not k or type(k)~="string"or #k<5 then return{valid=false,serverReachable=true,message="Key terlalu pendek"}end k=k:gsub("%s+","")local rf=request or http_request or(syn and syn.request)or(http and http.request)if not rf then return{valid=false,serverReachable=false,message="HTTP tidak tersedia"}end local s,r=pcall(function()return rf({Url=CFG.WA..k,Method="GET"})end)if s and r then if r.StatusCode==200 then local ps,pd=pcall(function()return HS:JSONDecode(r.Body)end)if ps and pd then if pd.valid==true then return{valid=true,serverReachable=true}else return{valid=false,serverReachable=true,message="Key tidak valid atau expired"}end else if r.Body and r.Body:lower():find("true")then return{valid=true,serverReachable=true}end return{valid=false,serverReachable=true,message="Response tidak valid"}end elseif r.StatusCode==404 then return{valid=false,serverReachable=true,message="Key tidak ditemukan"}elseif r.StatusCode==401 or r.StatusCode==403 then return{valid=false,serverReachable=true,message="Key ditolak"}elseif r.StatusCode>=500 then return{valid=false,serverReachable=false,message="Server error"}else return{valid=false,serverReachable=true,message="Error: "..tostring(r.StatusCode)}end end return{valid=false,serverReachable=false,message="Tidak bisa konek ke server"}end
+
+local function VK(k)if not k or type(k)~="string"or #k<5 then return{valid=false,serverReachable=true,message="Key terlalu pendek"}end k=k:gsub("%s+","")local s,rs=pcall(function()return Junkie.check_key(k)end)if not s then return{valid=false,serverReachable=false,message="Tidak bisa konek ke server"}end if rs.valid then return{valid=true,serverReachable=true}else local err=rs.error or"Unknown error"local msg=errorMessages[err]or err if err=="HWID_BANNED"then task.spawn(function()task.wait(2)LP:Kick("Hardware banned from service")end)end return{valid=false,serverReachable=true,message=msg}end end
+
 local function CSK()local sd=LK()if sd and sd.key then local rs=VK(sd.key)if rs.valid==true then return true elseif rs.serverReachable==true then DK()SN("⚠️ Key Expired","Key tersimpan tidak valid, masukkan key baru",4)return false else SN("⚠️ Offline Mode","Server tidak bisa dihubungi",3)return true end end return false end
 
 local SGui=Instance.new("ScreenGui")SGui.Name="ToingDc_KeySystem"SGui.ResetOnSpawn=false SGui.Parent=CG
@@ -135,7 +68,6 @@ if CSK()then SGui:Destroy()pcall(function()loadstring(game:HttpGet(CFG.HL))()end
 local function KPK(r)pcall(function()SGui:Destroy()end)LP:Kick(r)end
 local function GR()return CFG.MA-FA end
 
--- GUI ELEMENTS (Minified)
 local M=Instance.new("Frame")M.Parent=SGui M.BackgroundColor3=Color3.fromRGB(13,13,13)M.Position=UDim2.new(0.5,-180,0.5,-110)M.Size=UDim2.new(0,360,0,220)Instance.new("UICorner",M).CornerRadius=UDim.new(0,28)Instance.new("UIStroke",M).Color=Color3.fromRGB(30,30,30)
 local T=Instance.new("TextLabel")T.Parent=M T.Text="ToingDc"T.Font=Enum.Font.GothamBlack T.TextColor3=Color3.fromRGB(255,255,255)T.TextSize=24 T.Position=UDim2.new(0,22,0,22)T.Size=UDim2.new(0,200,0,30)T.BackgroundTransparency=1 T.TextXAlignment=Enum.TextXAlignment.Left
 local ST=Instance.new("TextLabel")ST.Parent=M ST.Text="masukin key kocak"ST.Font=Enum.Font.GothamMedium ST.TextColor3=Color3.fromRGB(120,120,120)ST.TextSize=14 ST.Position=UDim2.new(0,22,0,52)ST.Size=UDim2.new(0,200,0,20)ST.BackgroundTransparency=1 ST.TextXAlignment=Enum.TextXAlignment.Left
@@ -159,7 +91,9 @@ AH(EX,Color3.fromRGB(32,26,28),Color3.fromRGB(50,35,38))AH(GK,Color3.fromRGB(28,
 KI.Focused:Connect(function()TS:Create(IS,TweenInfo.new(0.2),{Color=Color3.fromRGB(80,120,180)}):Play()end)
 KI.FocusLost:Connect(function()TS:Create(IS,TweenInfo.new(0.2),{Color=Color3.fromRGB(38,38,38)}):Play()end)
 EX.MouseButton1Click:Connect(function()KPK("masukin key kocak")end)
-GK.MouseButton1Click:Connect(function()if setclipboard then setclipboard(CFG.GK)SS.Text="Link copied!"SS.TextColor3=Color3.fromRGB(100,180,255)end SN("ToingDc","Key link copied!",4)end)
+
+GK.MouseButton1Click:Connect(function()SS.Text="Generating link..."SS.TextColor3=Color3.fromRGB(255,200,100)local s,link,err=pcall(function()return Junkie.get_key_link()end)if s and link then if setclipboard then setclipboard(link)SS.Text="✅ Link copied!"SS.TextColor3=Color3.fromRGB(100,180,255)SN("ToingDc","Key link copied to clipboard!",4)else SS.Text="Check console for link"print("Get Key Link:",link)end else local errMsg=err or"Failed to generate"if errMsg=="RATE_LIMITTED"or(type(err)=="string"and err:find("RATE"))then SS.Text="⚠️ Rate limited, tunggu 5 menit"SS.TextColor3=Color3.fromRGB(255,150,100)else SS.Text="❌ "..tostring(errMsg)SS.TextColor3=Color3.fromRGB(255,100,100)end end end)
+
 local IV=false
 SB.MouseButton1Click:Connect(function()if IV then return end local k=KI.Text:gsub("%s+","")if k==""then SS.Text="Key tidak boleh kosong!"SS.TextColor3=Color3.fromRGB(255,100,100)SHI()return end IV=true SS.Text="Validating..."SS.TextColor3=Color3.fromRGB(255,200,100)task.wait(0.5)local rs=VK(k)IV=false if rs.valid==true then SS.Text="✅ Key valid! Loading..."SS.TextColor3=Color3.fromRGB(100,255,140)SK(k)task.wait(1)SGui:Destroy()pcall(function()loadstring(game:HttpGet(CFG.HL))()end)elseif rs.serverReachable==false then SS.Text="⚠️ "..rs.message SS.TextColor3=Color3.fromRGB(255,180,100)SHI()else FA=FA+1 UUI()SHI()local rm=GR()if rm<=0 then SS.Text="❌ Key salah 3x!"task.wait(1.5)KPK("masukin key kocak")else SS.Text="❌ "..rs.message.." | Sisa: "..rm SS.TextColor3=Color3.fromRGB(255,100,100)end end end)
 UUI()
