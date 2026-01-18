@@ -41,9 +41,9 @@ local CFG={
 }
 
 local Junkie=loadstring(game:HttpGet("https://jnkie.com/sdk/library.lua"))()
-Junkie.service=CFG.junkie_service
-Junkie.identifier=CFG.junkie_identifier
-Junkie.provider=CFG.junkie_provider
+Junkie.service = "tuwing"
+Junkie.identifier = "11515"
+Junkie.provider = "TohirDc"
 
 local errorMessages={KEY_INVALID="Key tidak ditemukan",KEY_EXPIRED="Key sudah expired",HWID_BANNED="Hardware banned",KEY_INVALIDATED="Key dinonaktifkan",ALREADY_USED="Key sekali pakai sudah terpakai",HWID_MISMATCH="HWID limit tercapai",SERVICE_NOT_FOUND="Service tidak ditemukan",SERVICE_MISMATCH="Key untuk service lain",PREMIUM_REQUIRED="Butuh key premium",ERROR="Network error, coba lagi",RATE_LIMITTED="Rate limited, tunggu 5 menit"}
 local FA=0
