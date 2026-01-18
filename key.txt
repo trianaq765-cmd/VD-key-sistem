@@ -29,9 +29,9 @@ local GID=93978595733734
 -- CONFIG (Junkie Integration)
 local CFG={
     -- Junkie Dashboard Settings
-    junkie_service = "Junkie",        -- Name of Service from Junkie dashboard
-    junkie_identifier = "69696969",   -- The id of your provider name
-    junkie_provider = "Junkie",       -- Junkie provider name
+    junkie_service = "ToingDc",        -- Name of Service from Junkie dashboard
+    junkie_identifier = "2263",   -- The id of your provider name
+    junkie_provider = "TohirDc",       -- Junkie provider name
     
     -- Script Settings
     HL = "https://pastebin.com/raw/u4kzwdEX", -- Script Loader setelah Key valid
