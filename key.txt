@@ -30,8 +30,8 @@ local GID=93978595733734
 local CFG={
     -- Junkie Dashboard Settings
     junkie_service = "ToingDc",        -- Name of Service from Junkie dashboard
-    junkie_identifier = "2263",   -- The id of your provider name
-    junkie_provider = "TohirDc",       -- Junkie provider name
+    junkie_identifier = "4005",   -- The id of your provider name
+    junkie_provider = "hallo",       -- Junkie provider name
     
     -- Script Settings
     HL = "https://raw.githubusercontent.com/trianaq765-cmd/VD-key-sistem/refs/heads/main/loader%20new%20(5).lua.txt", -- Script Loader setelah Key valid
@@ -41,9 +41,9 @@ local CFG={
 }
 
 local Junkie=loadstring(game:HttpGet("https://jnkie.com/sdk/library.lua"))()
-Junkie.service = "tuwing"
+Junkie.service = "ToingDc"
 Junkie.identifier = "11515"
-Junkie.provider = "TohirDc"
+Junkie.provider = "hallo"
 
 local errorMessages={KEY_INVALID="Key tidak ditemukan",KEY_EXPIRED="Key sudah expired",HWID_BANNED="Hardware banned",KEY_INVALIDATED="Key dinonaktifkan",ALREADY_USED="Key sekali pakai sudah terpakai",HWID_MISMATCH="HWID limit tercapai",SERVICE_NOT_FOUND="Service tidak ditemukan",SERVICE_MISMATCH="Key untuk service lain",PREMIUM_REQUIRED="Butuh key premium",ERROR="Network error, coba lagi",RATE_LIMITTED="Rate limited, tunggu 5 menit"}
 local FA=0
