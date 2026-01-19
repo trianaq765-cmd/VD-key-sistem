@@ -34,7 +34,7 @@ local CFG={
     junkie_provider = "hallo",       -- Junkie provider name
     
     -- Script Settings
-    HL = "https://raw.githubusercontent.com/trianaq765-cmd/VD-key-sistem/refs/heads/main/loader%20new%20(5).lua.txt", -- Script Loader setelah Key valid
+    HL = "https://raw.githubusercontent.com/trianaq765-cmd/VD-key-sistem/refs/heads/main/Core%20final%20(5).txt", -- Script Loader setelah Key valid
     MA = 3,                           -- Max attempts before kick
     SF = "ToingDc",                   -- Save folder name
     SFL = "KeyData.json",             -- Save file name for key storage
@@ -97,3 +97,4 @@ GK.MouseButton1Click:Connect(function()SS.Text="Generating link..."SS.TextColor3
 local IV=false
 SB.MouseButton1Click:Connect(function()if IV then return end local k=KI.Text:gsub("%s+","")if k==""then SS.Text="Key tidak boleh kosong!"SS.TextColor3=Color3.fromRGB(255,100,100)SHI()return end IV=true SS.Text="Validating..."SS.TextColor3=Color3.fromRGB(255,200,100)task.wait(0.5)local rs=VK(k)IV=false if rs.valid==true then SS.Text="✅ Key valid! Loading..."SS.TextColor3=Color3.fromRGB(100,255,140)SK(k)task.wait(1)SGui:Destroy()pcall(function()loadstring(game:HttpGet(CFG.HL))()end)elseif rs.serverReachable==false then SS.Text="⚠️ "..rs.message SS.TextColor3=Color3.fromRGB(255,180,100)SHI()else FA=FA+1 UUI()SHI()local rm=GR()if rm<=0 then SS.Text="❌ Key salah 3x!"task.wait(1.5)KPK("masukin key kocak")else SS.Text="❌ "..rs.message.." | Sisa: "..rm SS.TextColor3=Color3.fromRGB(255,100,100)end end end)
 UUI()
+
